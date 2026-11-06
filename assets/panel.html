@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Panel</title>
+<link rel="icon" type="image/png" href="/panel/icon-192.png">
+<link rel="apple-touch-icon" href="/panel/icon-192.png">
+<link rel="manifest" href="/panel/manifest.json">
+<meta name="theme-color" content="#070b14">
+<style>
+:root{--bg:#070b14;--glass:rgba(16,24,40,.62);--line:rgba(148,163,184,.18);--text:#e8eefc;--muted:#93a1bd;--accent:#5eead4;--accent2:#a78bfa;--danger:#fb7185;--ok:#4ade80;--r:18px}
+@media (prefers-color-scheme:light){:root{--bg:#eef2fb;--glass:rgba(255,255,255,.7);--line:rgba(30,41,80,.14);--text:#0f1a33;--muted:#546182;--accent:#0d9488;--accent2:#7c3aed;--danger:#e11d48;--ok:#16a34a}}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font:15px/1.75 Vazirmatn,"Segoe UI",Tahoma,sans-serif;overflow-x:hidden}
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden}
+.bg i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;will-change:transform}
+.bg i:nth-child(1){width:46vmax;height:46vmax;background:var(--accent);top:-14vmax;right:-10vmax;animation:d1 26s ease-in-out infinite alternate}
+.bg i:nth-child(2){width:40vmax;height:40vmax;background:var(--accent2);bottom:-16vmax;left:-8vmax;animation:d2 32s ease-in-out infinite alternate}
+.bg i:nth-child(3){width:28vmax;height:28vmax;background:#38bdf8;top:38%;left:42%;opacity:.28;animation:d3 38s ease-in-out infinite alternate}
+@keyframes d1{to{transform:translate(-18vmax,16vmax) scale(1.15)}}
+@keyframes d2{to{transform:translate(20vmax,-14vmax) scale(.9)}}
+@keyframes d3{to{transform:translate(-22vmax,-18vmax) scale(1.3)}}
+@media (prefers-reduced-motion:reduce){.bg i{animation:none}}
+main{max-width:800px;margin:0 auto;padding:16px 14px 40px}
+header{display:flex;justify-content:space-between;align-items:center;margin:8px 2px 16px}
+h1{font-size:24px;margin:0;font-weight:800;letter-spacing:-.3px}
+h2{font-size:16px;margin:0 0 12px}
+.badge{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:2px 10px;background:var(--glass)}
+.card{background:var(--glass);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:14px;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+label{display:block;margin:12px 0 4px;color:var(--muted);font-size:13px}
+input[type=text],input[type=password],textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(127,140,170,.1);color:var(--text);font:inherit;direction:ltr;text-align:left;outline:0}
+input:focus,textarea:focus,button:focus-visible{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 30%,transparent)}
+textarea{min-height:90px;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row>*{flex:1 1 140px}
+button{padding:10px 16px;border:0;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101f;font:inherit;font-weight:700;cursor:pointer}
+button.ghost{background:transparent;color:var(--accent);border:1px solid var(--line);font-weight:500}
+button.danger{background:var(--danger);color:#fff}
+.sub{display:flex;gap:8px;align-items:center;margin:8px 0}
+.sub span{width:92px;font-size:13px;color:var(--muted)}
+.sub input{flex:1;font-size:12px}
+.sub button{flex:0 0 auto;padding:8px 12px}
+.sw{display:flex;gap:10px;align-items:center;margin:9px 0}
+.sw input{width:19px;height:19px;accent-color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.chip{display:inline-flex;gap:6px;align-items:center;padding:5px 12px;border:1px solid var(--line);border-radius:99px;cursor:pointer;direction:ltr;user-select:none;font-size:14px}
+.chip.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 16%,transparent)}
+.chip.lock{cursor:default}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok)}
+.dot.bad{background:var(--danger)}
+.hint{color:var(--muted);font-size:12px;margin-top:4px}
+.msg{margin-top:8px;font-size:13px;min-height:20px;color:var(--ok)}
+.msg.err{color:var(--danger)}
+.warn{border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:13px;margin-bottom:12px;color:var(--muted)}
+.toast{position:sticky;top:10px;z-index:5;margin-bottom:14px;padding:12px 14px;border-radius:14px;border:1px solid var(--accent);background:var(--glass);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);display:flex;gap:10px;align-items:flex-start;animation:pop .35s ease}
+.toast div{flex:1;font-size:14px}
+.toast button{padding:4px 10px}
+@keyframes pop{from{transform:translateY(-8px);opacity:0}}
+.brand{display:flex;gap:10px;align-items:center}.brand img{width:46px;height:46px}
+.big{display:block;width:120px;margin:0 auto 8px}
+.wm{position:absolute;width:min(72vmin,520px);left:50%;top:50%;opacity:.05;transform:translate(-50%,-50%);animation:wm 60s ease-in-out infinite alternate}
+@keyframes wm{to{transform:translate(-50%,-53%) rotate(2deg) scale(1.05)}}
+@media (prefers-color-scheme:light){.brand img,.big,.wm{filter:brightness(.3)}}
+@media (prefers-reduced-motion:reduce){.wm{animation:none}}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="bg"><i></i><i></i><i></i><img class="wm" src="/panel/logo.png" alt=""></div>
+<main>
+<header><div class="brand"><img src="/panel/logo.png" alt=""><h1>پنل مدیریت</h1></div><span class="badge" id="ver"></span></header>
+
+<div id="auth" class="card hidden">
+  <img class="big" src="/panel/logo.png" alt=""><h2 id="authTitle" style="text-align:center"></h2>
+  <div id="insecure" class="warn hidden">این اتصال رمزنگاری ندارد. برای وارد کردن رمز از آدرس https:// استفاده کن و هشدار گواهی خودامضا را تایید کن.</div>
+  <div id="keyBox" class="hidden"><label>کلید راه‌اندازی (SETUP_KEY)</label><input type="password" id="setupKey"></div>
+  <label>رمز عبور</label>
+  <input type="password" id="pw" autocomplete="current-password">
+  <div class="row" style="margin-top:14px"><button id="authBtn"></button></div>
+  <div class="msg err" id="authMsg"></div>
+</div>
+
+<div id="app" class="hidden">
+  <div id="toast" class="toast hidden"><div id="toastTxt"></div><button class="ghost" id="toastX">باشه</button></div>
+
+  <div class="card">
+    <h2>لینک‌های ساب <span class="badge" id="cnt"></span></h2>
+    <div class="sub"><span>Normal</span><input type="text" readonly id="s_links"><button class="ghost" data-copy="s_links">کپی</button></div>
+    <div class="sub"><span>Xray</span><input type="text" readonly id="s_xray"><button class="ghost" data-copy="s_xray">کپی</button></div>
+    <div class="sub"><span>Xray Fragment</span><input type="text" readonly id="s_fragment"><button class="ghost" data-copy="s_fragment">کپی</button></div>
+    <div class="sub"><span>sing-box</span><input type="text" readonly id="s_singbox"><button class="ghost" data-copy="s_singbox">کپی</button></div>
+    <div class="sub"><span>Clash</span><input type="text" readonly id="s_clash"><button class="ghost" data-copy="s_clash">کپی</button></div>
+    <div class="hint">ساب Fragment فقط کانفیگ‌های TLS را دارد. با هر تغییر، ساب‌ها خودکار به‌روز می‌شوند؛ کلاینت‌ها هر یک ساعت دوباره می‌گیرند. لینک را خصوصی نگه دار.</div>
+    <div class="hint" id="lastChange"></div>
+    <div class="row" style="margin-top:10px"><button class="ghost" id="rotSub">توکن جدید ساب</button></div>
+  </div>
+
+  <div class="card">
+    <h2>پروتکل‌ها</h2><div class="warn">نسخه Hostless فقط لینک‌های TLS/WSS روی HTTPS پورت 443 تولید می‌کند. کارکرد WebSocket باید روی ورودی Hostless آزمایش شود؛ اتصال TCP خام در این پلتفرم پشتیبانی این برنامه را ندارد.</div>
+    <div class="sw"><input type="checkbox" id="p_vlessWs" disabled><span>VLESS-WS (غیرفعال در Hostless؛ فقط WSS)</span></div>
+    <div class="sw"><input type="checkbox" id="p_vlessWsTls"><span>VLESS-WS-TLS</span></div>
+    <div class="sw"><input type="checkbox" id="p_trojanWs" disabled><span>Trojan-WS (غیرفعال در Hostless؛ فقط WSS)</span></div>
+    <div class="sw"><input type="checkbox" id="p_trojanWsTls"><span>Trojan-WS-TLS</span></div>
+    <label>UUID</label>
+    <div class="row"><input type="text" id="uuid" readonly style="flex:3 1 260px"><button class="ghost" id="rotUuid">UUID جدید</button></div>
+  </div>
+
+  <div class="card">
+    <h2>مسیریابی</h2>
+    <div class="sw"><input type="checkbox" id="bypassIran"><span>Bypass Iran (سایت‌ها و آی‌پی‌های ایران مستقیم)</span></div>
+    <div class="sw"><input type="checkbox" id="bypassLan"><span>Bypass LAN</span></div>
+    <label>دامنه‌هایی که همیشه از پروکسی رد شوند</label>
+    <textarea id="forceProxyDomains"></textarea>
+    <div class="hint">پیش‌فرض همه‌ی دامنه‌های گوگل است، چون AI Studio علاوه بر aistudio.google.com به زیردامنه‌های دیگر گوگل هم درخواست می‌زند و اگر یکی‌شان مستقیم برود ارور ریجن می‌دهد.</div>
+    <div class="row" style="margin-top:10px"><button class="ghost" id="exitBtn">بررسی کشور آی‌پی خروجی سرور</button></div>
+    <div class="msg" id="exitMsg"></div>
+  </div>
+
+  <div class="card">
+    <h2>اتصال، DNS و Fragment</h2>
+    <label>آدرس سرور در لینک‌ها (خالی = همان آدرسی که پنل با آن باز شده)</label><input type="text" id="address">
+    <div class="row">
+      <div><label>پورت عمومی پورت اصلی (۰ = خودکار)</label><input type="text" id="publicPort"></div>
+      <div><label>SNI (خالی = خودکار)</label><input type="text" id="sni"></div>
+    </div>
+    <div class="row"><div><label>حداقل تعداد کانفیگ در هر ساب</label><input type="text" id="minConfigs" inputmode="numeric"></div></div>
+    <label>لیست SNI برای ساخت کانفیگ‌های بیشتر (هر خط یکی)</label><textarea id="sniList"></textarea>
+    <div class="hint">اگر تعداد (پروتکل × پورت) کمتر از حداقل باشد، کانفیگ‌های اضافه با SNI، Host و fingerprint متفاوت ساخته می‌شوند. سرور به این مقادیر وابسته نیست.</div>
+    <label>Remote DNS (DoH)</label><input type="text" id="remoteDNS">
+    <label>Local DNS</label><input type="text" id="localDNS">
+    <label>DoH برای UDP (سمت سرور)</label><input type="text" id="dohForUDP">
+    <div class="row">
+      <div><label>Fragment length</label><input type="text" id="fragLength"></div>
+      <div><label>Fragment interval</label><input type="text" id="fragInterval"></div>
+    </div>
+    <div class="row" style="margin-top:16px"><button id="save">ذخیره و به‌روزرسانی ساب‌ها</button></div>
+    <div class="msg" id="msg"></div>
+  </div>
+
+  <div class="card">
+    <h2>حساب</h2>
+    <div class="row">
+      <input type="password" id="curPw" placeholder="رمز فعلی" autocomplete="current-password">
+      <input type="password" id="newPw" placeholder="رمز جدید (حداقل ۸ کاراکتر)" autocomplete="new-password">
+      <button class="ghost" id="chgPw">تغییر رمز</button>
+    </div>
+    <div class="row" style="margin-top:10px"><button class="danger" id="logout">خروج</button></div>
+    <div class="msg" id="pwMsg"></div>
+  </div>
+</div>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const api = async (method, path, body) => {
+  const r = await fetch(path, { method, credentials: 'same-origin', headers: body ? { 'content-type': 'application/json' } : undefined, body: body ? JSON.stringify(body) : undefined });
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(data.error || 'خطا');
+  return data;
+};
+const lines = (s) => s.split(/[\s,]+/).filter(Boolean);
+const flash = (el, t, err) => { el.textContent = t; el.className = 'msg' + (err ? ' err' : ''); };
+const PROTOS = ['vlessWs', 'vlessWsTls', 'trojanWs', 'trojanWsTls'];
+let cur = null, lastRev = null;
+
+function notify(text) { $('toastTxt').textContent = text; $('toast').classList.remove('hidden'); }
+function renderCount() {
+  const base = PROTOS.filter((k) => $('p_' + k).checked).length, min = Number($('minConfigs').value) || cur.minConfigs;
+  $('cnt').textContent = (base ? base * Math.min(8, Math.max(1, Math.ceil(min / base))) : 0) + ' کانفیگ';
+}
+function fill(s) {
+  cur = s;
+  for (const k of PROTOS) $('p_' + k).checked = s.protocols[k];
+  $('uuid').value = s.uuid;
+  $('bypassIran').checked = s.bypassIran; $('bypassLan').checked = s.bypassLan;
+  $('forceProxyDomains').value = s.forceProxyDomains.join('\n');
+  $('address').value = s.address; $('publicPort').value = s.publicPort || 0; $('sni').value = s.sni; $('minConfigs').value = s.minConfigs; $('sniList').value = s.sniList.join('\n');
+  $('remoteDNS').value = s.remoteDNS; $('localDNS').value = s.localDNS; $('dohForUDP').value = s.dohForUDP;
+  $('fragLength').value = s.fragment.length; $('fragInterval').value = s.fragment.interval;
+  for (const f of ['links', 'xray', 'fragment', 'singbox', 'clash']) $('s_' + f).value = `${location.origin}/sub/${s.subToken}/${f}`;
+  $('lastChange').textContent = s.lastChange ? `آخرین تغییر: نسخه ${s.lastChange.rev} — ${new Date(s.lastChange.at).toLocaleString('fa-IR')}` : '';
+  renderCount();
+  if (lastRev !== null && s.rev !== lastRev) notify(`تغییرات اعمال شد (نسخه ${s.rev}) و ساب‌ها خودکار به‌روز شدند. در برنامه‌ی کلاینت‌ات ساب‌ها را Update کن تا کانفیگ‌های جدید را بگیری.`);
+  lastRev = s.rev;
+}
+
+async function boot() {
+  const st = await api('GET', '/api/state');
+  $('ver').textContent = 'v' + st.version;
+  $('auth').classList.toggle('hidden', st.authed);
+  $('app').classList.toggle('hidden', !st.authed);
+  if (st.authed) {
+    const s = await api('GET', '/api/settings'); fill(s);
+    if (s.lastChange && Date.now() - s.lastChange.at < 864e5) notify(`ساب‌ها در نسخه ${s.lastChange.rev} تغییر کرده‌اند. اگر هنوز Update نکرده‌ای، در کلاینت ساب‌ها را به‌روز کن.`);
+    return;
+  }
+  $('authTitle').textContent = st.setup ? 'ورود' : 'ساخت رمز عبور (اولین بار)';
+  $('authBtn').textContent = st.setup ? 'ورود' : 'ثبت رمز';
+  $('insecure').classList.toggle('hidden', st.secure);
+  $('keyBox').classList.toggle('hidden', st.setup || !st.needsSetupKey);
+  $('authBtn').onclick = async () => {
+    try { await api('POST', st.setup ? '/api/login' : '/api/setup', { password: $('pw').value, setupKey: $('setupKey').value }); $('pw').value = ''; boot(); }
+    catch (e) { flash($('authMsg'), e.message, true); }
+  };
+}
+PROTOS.forEach((k) => ($('p_' + k).onchange = renderCount));
+$('minConfigs').oninput = () => cur && renderCount();
+$('toastX').onclick = () => $('toast').classList.add('hidden');
+$('save').onclick = async () => {
+  try {
+    const protocols = {}; for (const k of PROTOS) protocols[k] = $('p_' + k).checked;
+    fill(await api('PUT', '/api/settings', {
+      protocols, bypassIran: $('bypassIran').checked, bypassLan: $('bypassLan').checked,
+      forceProxyDomains: lines($('forceProxyDomains').value), minConfigs: $('minConfigs').value.trim(), sniList: lines($('sniList').value),
+      address: $('address').value.trim(), publicPort: $('publicPort').value.trim(), sni: $('sni').value.trim(),
+      remoteDNS: $('remoteDNS').value.trim(), localDNS: $('localDNS').value.trim(), dohForUDP: $('dohForUDP').value.trim(),
+      fragment: { length: $('fragLength').value.trim(), interval: $('fragInterval').value.trim() },
+    }));
+    flash($('msg'), 'ذخیره شد');
+  } catch (e) { flash($('msg'), e.message, true); }
+};
+$('exitBtn').onclick = async () => {
+  flash($('exitMsg'), 'در حال بررسی…');
+  try { const r = await api('GET', '/api/exit-info'); flash($('exitMsg'), `آی‌پی خروجی: ${r.ip} — کشور: ${r.country}${r.city ? ' / ' + r.city : ''}${r.org ? ' — ' + r.org : ''}`); }
+  catch (e) { flash($('exitMsg'), e.message, true); }
+};
+$('rotUuid').onclick = async () => { if (confirm('کانفیگ‌های قبلی از کار می‌افتند. ادامه؟')) fill(await api('POST', '/api/rotate-uuid', {})); };
+$('rotSub').onclick = async () => { if (confirm('لینک ساب جدید ساخته می‌شود؛ لینک قدیمی ۳۰ روز کار می‌کند و به کاربر اعلام می‌کند لینک جدید را بگذارد. ادامه؟')) fill(await api('POST', '/api/rotate-sub', {})); };
+$('logout').onclick = async () => { await api('POST', '/api/logout', {}); lastRev = null; boot(); };
+$('chgPw').onclick = async () => {
+  try { await api('POST', '/api/password', { current: $('curPw').value, next: $('newPw').value }); $('curPw').value = ''; $('newPw').value = ''; flash($('pwMsg'), 'رمز تغییر کرد'); }
+  catch (e) { flash($('pwMsg'), e.message, true); }
+};
+document.querySelectorAll('[data-copy]').forEach((b) => {
+  b.onclick = async () => {
+    const el = $(b.dataset.copy);
+    try { await navigator.clipboard.writeText(el.value); } catch { el.select(); document.execCommand('copy'); }
+    const t = b.textContent; b.textContent = 'کپی شد'; setTimeout(() => (b.textContent = t), 1200);
+  };
+});
+boot().catch((e) => flash($('authMsg'), e.message, true));
+</script>
+</body>
+</html>

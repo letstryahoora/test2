@@ -1,0 +1,14 @@
+{
+  "name": "blackheart-hostless-panel",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hostless-compatible HTTP panel build; WSS requires platform WebSocket upgrade support",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}
